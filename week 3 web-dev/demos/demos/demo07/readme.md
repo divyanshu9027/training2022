@@ -1,0 +1,1 @@
+Creaet a calc function which will accept name of opeartion and n1,n2 as parameter as per the opeation will give result

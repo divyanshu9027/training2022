@@ -1,0 +1,106 @@
+const http=require('http');
+const fs=require('fs');
+const port=3000;
+const serverMessage=`http://localhost:${port} started`;
+function myfunction(file_name,content_type,resp){
+    fs.readFile(file_name,(err,data)=>{
+        resp.setHeader('Content-Type',content_type);
+        if(err){
+            resp.write(err);                     
+        }
+        else{                    
+            resp.write(data);                                        
+        }
+        resp.end();
+
+    });
+}
+
+
+http.createServer((req,resp)=>{
+    const url=req.url;
+    const method=req.method;
+    // //Below code explains what is url and method in request
+    // resp.setHeader('Content-Type','text/html')
+    // resp.write("<br/>req.url: "+url);
+    // resp.write("<br/>req.method: "+method);
+    // resp.end();
+
+    switch(url){
+        case '/':
+        case '/index.html':
+            fs.readFile(__dirname+'/index.html',(err,data)=>{
+                resp.setHeader('Content-Type','text/html');
+                if(err){
+                    resp.write(err);                     
+                }
+                else{                    
+                    resp.write(data);                                        
+                }
+                resp.end();
+            });
+            break;
+        case '/aboutus.html':
+            myfunction(__dirname+'/aboutus.html','text/html',resp);
+            // fs.readFile(__dirname+'/aboutus.html',(err,data)=>{
+            //     resp.setHeader('Content-type','text/html');
+            //     if(err){
+            //         resp.write(err);
+            //     }else{
+            //         resp.write(data);    
+            //     }
+            //     resp.end();
+            // });
+            break;            
+        case '/contactus.html':
+            fs.readFile(__dirname+'/contactus.html',(err,data)=>{
+                resp.setHeader('Content-type','text/html');
+                if(err){
+                    resp.write(err);
+                }else{
+                    resp.write(data);    
+                }
+                resp.end();
+            });
+            break;
+        case '/signup.html':
+            fs.readFile(__dirname+'/signup.html',(err,data)=>{
+                resp.setHeader('Content-type','text/html');
+                if(err){
+                    resp.write(err);
+                }else{
+                    resp.write(data);    
+                }
+                resp.end();
+            });
+            break;
+        case '/signin.html':    
+            fs.readFile(__dirname+'/signin.html',(err,data)=>{
+                resp.setHeader('Content-type','text/html');
+                if(err){
+                    resp.write(err);
+                }else{
+                    resp.write(data);    
+                }
+                resp.end();
+            });
+            break;
+        case '/style.css':
+            fs.readFile(__dirname+'/css/style.css',(err,data)=>{
+                resp.setHeader('Cotent-Type','text/css');
+                if(err){
+                    resp.write(err);
+                }else{
+                    resp.write(data);
+                }
+                resp.end();
+            });
+            break;
+        default:
+
+                resp.write('Cotentn not found');
+                resp.end();
+            break;
+    }
+
+}).listen(port,()=>{console.log(serverMessage);});
